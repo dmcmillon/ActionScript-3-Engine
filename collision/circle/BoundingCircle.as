@@ -3,7 +3,7 @@ package engine.collision.circle
 	import engine.maths.Vector2D;
 	import flash.geom.Point;
 	/**
-	 * ...
+	 * Represents a bounding circle and handles collision detection with other bounding circles.
 	 * @author Daniel McMillon
 	 */
 	public class BoundingCircle

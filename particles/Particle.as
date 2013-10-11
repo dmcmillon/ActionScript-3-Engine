@@ -7,7 +7,7 @@ package engine.particles
 	import flash.geom.Matrix;
 	
 	/**
-	 * Particle is struct that holds the different variables of particles
+	 * Struct that holds the different attributes of a particles
 	 */
 	public class Particle implements IPoolable
 	{

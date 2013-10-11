@@ -13,21 +13,22 @@ package engine.actor
 	import engine.physics.movement.BaseMovementPhysics;
 	import engine.maths.Vector2D;
 	import engine.maths.MathHelper;
-	//import engine.miscellaneous.IDisplayable;
 	
 	/**
-	 * Container that holds data for visible objects on screen.
+	 * Container that holds data for visible objects on screen. This is the base class for all visible entities.
 	 * @author Daniel McMillon
 	 */
 
-	public class Actor implements IPoolable//, IDisplayable
+	public class Actor implements IPoolable
 	{
 		//Flags used for collision detection. AABB and BoundingCircle are bounding objects that allow for quick rejection of objects while doing collision detection.
 		//They reject objects before more advanced and costly collision detection needs to be done.
-		public static const BOUNDING_CIRCLE:uint = 2;
-		
 		//Axis-Aligned Bounding Box not implemented yet
 		//public static const AXIS_ALIGNED_BOUNDING_BOX:uint = 1;
+		public static const BOUNDING_CIRCLE:uint = 2;
+		
+		//public static var nextAvailableID:Number = 0;
+		
 		public var isCollideable:Boolean = false;
 		
 		protected var image:DisplayObject;
@@ -42,16 +43,31 @@ package engine.actor
 		//private var aabb:AABB = null;
 		protected var boundingCircle:BoundingCircle = null;
 		
-		//matrix to transform the registration point from the top left corner to the center of the image.
+		//matrix to transform the image on the screen.
 		protected var matrix:Matrix;
 		
 		protected var alive:Boolean;
+		
+		//private var id:Number = 0;
 		
 		public function Actor()
 		{
 			matrix = new Matrix();
 		}
 		
+		/**
+		 * Initializes the actor.
+		 * @param	image			The displayable image that visually represents the actor.
+		 * @param	position		The position of the actor in the world.
+		 * @param	rotation		The actor's current rotation.
+		 * @param	collisionBox	A collision box that surounds the actor.
+		 * @param	physics			A physics component of the actor. If null object is not moveable.
+		 * @param	scaleX			Scale in the x direction.
+		 * @param	scaleY			Scale in the y direction.
+		 * @param	bound			A flag that assigns an AABB or bounding circle to the actor for collision detection. 
+		 * 							If bound is passed 1 the actor is assigned an AABB. If passed 2 the actor is assigned a bounding circle. 
+		 * 							Bound can be passed both 1 and 2 for both an AABB and bounding circle to be assigned to the actor.
+		 */
 		public function init(image:DisplayObject, position:Vector2D, rotation:Number = 0, collisionBox:ICollisionBox = null, physics:BaseMovementPhysics = null, scaleX:Number = 1, scaleY:Number = 1, bound:uint = 0):void
 		{
 			this.image = image;

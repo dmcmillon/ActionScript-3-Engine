@@ -1,7 +1,8 @@
 package engine.statemachine 
 {
-	import engine.BaseEntity;
-	import engine.ITickable;
+	//import engine.actor.Actor;
+	//BaseEntity
+	import engine.miscellaneous.ITickable;
 	import flash.events.EventDispatcher;
 	/**
 	 * ...
