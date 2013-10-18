@@ -16,6 +16,7 @@ package engine.actor
 	
 	/**
 	 * Container that holds data for visible objects on screen. This is the base class for all visible entities.
+	 * Actor is controlled by a controller.
 	 * @author Daniel McMillon
 	 */
 
@@ -26,8 +27,6 @@ package engine.actor
 		//Axis-Aligned Bounding Box not implemented yet
 		//public static const AXIS_ALIGNED_BOUNDING_BOX:uint = 1;
 		public static const BOUNDING_CIRCLE:uint = 2;
-		
-		//public static var nextAvailableID:Number = 0;
 		
 		public var isCollideable:Boolean = false;
 		
@@ -119,6 +118,8 @@ package engine.actor
 			
 			if ( collisionBox != null )
 			{	
+				//The registration point is at the center of the image which is why it's necessary set the current position of the collision box 
+				//to the position of the image - half of the image size.
 				collisionBox.init(position.x - ((image.width * scaleX) >> 1), position.y - ((image.height * scaleY) >> 1), image.width * scaleX, image.height * scaleY);
 			}
 		}
@@ -234,6 +235,9 @@ package engine.actor
 			return matrix;
 		}
 		
+		/**
+		 * This method updates the matrix that transforms the image. The matrix moves the registration point to the center of the image.
+		 */
 		public function updateMatrix():void
 		{
 			matrix.identity();

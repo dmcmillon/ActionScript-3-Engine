@@ -11,23 +11,27 @@ package engine.display
 	import flash.geom.Rectangle;
 	
 	/**
-	 * ...
+	 * Managers what is displayed in the scene.
 	 * @author Daniel McMillon
 	 */
 	public class SceneManager
 	{
+		//Singleton class. There should only ever be one instance of this class.
 		private static var instance:SceneManager;
 		
 		private var sceneWidth:Number = 0.0;
 		private var sceneHeight:Number = 0.0;
 		
+		//vectors to hold objects in different layers. The game layer is drawn behind the foreground and the background is drawn behind the game layer.
 		private var foregroundLayer:Vector.<ImageStruct>;
 		private var backgroundLayer:Vector.<ImageStruct>;
 		private var gameLayer:Vector.<ImageStruct>;
 		
+		//The game world is displayed on a bitmap instead of the stage to take advantage of blitting.
 		private var sceneData:BitmapData;
 		private var scene:Bitmap;
 		
+		//matrix allows a 1 pixel border around each image.
 		private var matrix:Matrix = new Matrix(1, 0, 0, 1, 1, 1);
 		
 		public function get SceneWidth():Number
@@ -70,7 +74,10 @@ package engine.display
 			sceneData = new BitmapData(sceneWidth, sceneHeight, true);
 			scene = new Bitmap(sceneData);
 		}
-	
+		
+		/**
+		 * Draws the different layers to the scene.
+		 */
 		public function renderScene():void
 		{
 			sceneData.fillRect(new Rectangle(0, 0, sceneData.width, sceneData.height), 0);
@@ -82,8 +89,13 @@ package engine.display
 			sceneData.unlock();
 		}
 		
+		/**
+		 * Draws an individual layer (background, game, foreground).
+		 * @param	layer	The layer that is being drawn.
+		 */
 		private function renderLayer(layer:Vector.<ImageStruct>):void
 		{
+			//Each display object is first copied to a bitmap data object. The bitmap data object is then copied to the scene.
 			for ( var index:int = 0; index < layer.length; index++ )
 			{
 				var image:BitmapData = new BitmapData(layer[index].image.width + 2, layer[index].image.height + 2, true, 0x00000000);
@@ -153,7 +165,7 @@ package engine.display
 
 import flash.display.DisplayObject;
 import flash.geom.Matrix;
-
+//Struct to hold the image and the matrix for the image.
 internal class ImageStruct
 {
 	public var image:DisplayObject;

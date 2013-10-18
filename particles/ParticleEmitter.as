@@ -11,7 +11,7 @@ package engine.particles
 	import flash.display.Shape;
 	
 	/**
-	 * Emits and updates particles
+	 * Emits and updates particles.
 	 * @author Daniel McMillon
 	 */
 
@@ -25,11 +25,15 @@ package engine.particles
 		public var xVariation:Number = 0.0;
 		public var yVariation:Number = 0.0;
 		
+		//maximum number of particles that can be alive at one time. If < 0 then there is no limit to the number of particles that can be alive at one time.
 		public var maxParticles:int = -1;
 		
+		//effects applied to the particles
 		public var initialEffects:Vector.<IParticleEffect>;
 		public var effects:Vector.<IParticleEffect>;
 		
+		//Particles properties.
+		//Variation variables allow for some randomness to simulate real-life.
 		public var particleLifetime:int = 0;
 		public var particleLifetimeVariation:int = 0;
 		
@@ -44,6 +48,7 @@ package engine.particles
 		
 		public var particleRotation:Number = 0;
 		public var particleRotationVariation:Number = 0;
+		
 		//image that the particle display on screen. If this is null, the particle draws a dot.
 		//Unable to use until I figure out how to make a copy of a DisplayObject.
 		public var particleGraphics:Shape;
@@ -52,18 +57,25 @@ package engine.particles
 		public var emitNumber:int = 0;
 		public var emitNumberVariation:int = 0;
 		
+		//minimum time that must pass before it's allowed to emit.
 		public var emitTimer:Number = 0.0;
 		
 		//Flag that specifies whether the emitter has a lifetime or not. When equal to false it has a lifetime and emits for a certain number of frames.
 		public var continuous:Boolean = false;
 		public var emitterLifetime:int = 1;
 		
+		//The time that elapsed from the last emission of particles
 		private var elapsed:Number = 0.0;
 		
+		//factory class that creates particles
 		private var particleFactory:ParticleFactory;
+		
+		//holds a list of active particles.
 		private var particleList:Vector.<Particle>;
 		
 		private var scenemanager:SceneManager;
+		
+		//A pool of the particles
 		private var pool:ObjectPool;
 		
 		public function ParticleEmitter(x:int, y:int, maxParticles:int = -1, particleGraphics:Shape = null)
@@ -86,6 +98,7 @@ package engine.particles
 		
 		public function tick(deltaTime:Number):void
 		{
+			//if the emitter is alive or does not die it is possible to emit.
 			if ( emitterLifetime > 0 || continuous )
 			{
 				elapsed += deltaTime;
@@ -111,6 +124,7 @@ package engine.particles
 				}
 			}
 			
+			//apply effects to particles that are active.
 			for ( var i:int = 0; i < particleList.length; i++ )
 			{
 				for ( var effectIndex:int = 0; effectIndex < effects.length; effectIndex++ )
@@ -134,6 +148,7 @@ package engine.particles
 			}
 		}
 		
+		//creates a particle
 		private function addParticle(deltaTime:Number):void
 		{
 			var particle:Particle = (Particle)(pool.acquireResource());

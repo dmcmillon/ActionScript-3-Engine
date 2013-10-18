@@ -2,13 +2,15 @@ package engine.pool
 {
 	import flash.text.TextField;
 	/**
-	 * ...
+	 * Class that allows objects to be reused. (Increases performance by not continuously creating and deleting the same objects 
+	 * and reduces the amount of time the garbage collector is called.)
 	 * @author Daniel McMillon
 	 */
 	public class ObjectPool 
 	{
 		private var usedResources:Vector.<IPoolable>;
 		private var freeResources:Vector.<IPoolable>;
+		//function that creates the resource object.
 		private var createResource:Function;
 		
 		public function ObjectPool(createResource:Function) 
