@@ -1,11 +1,14 @@
 package engine.statemachine 
 {
 	//import engine.actor.Actor;
-	//BaseEntity
+	//BaseEntity - not implemented yet.
 	import engine.miscellaneous.ITickable;
 	import flash.events.EventDispatcher;
+	
+	import engine.events.StateEvent;
 	/**
-	 * ...
+	 * State Machine class that manages different states of an object.
+	 * Ported over from HaXe, but it's not completed yet.
 	 * @author Daniel McMillon
 	 */
 	public class StateMachine extends EventDispatcher implements ITickable
@@ -14,6 +17,7 @@ package engine.statemachine
 		private var currentStates:Vector.<IState>;
 		//private var previousStates:Vector.<IState>;
 		
+		//BaseEntity does not exist yet.
 		private var owner:BaseEntity;
 		
 		public function StateMachine(owner:BaseEntity) 

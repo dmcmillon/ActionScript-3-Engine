@@ -4,6 +4,7 @@ package engine.events
 	import flash.events.Event;
 	/**
 	 * Event used by states to tell the state machine to either add a new event, remove, change, or interrupt an event.
+	 * Ported over from HaXe, but I haven't tested to make sure it compiles yet.
 	 * @author Daniel McMillon
 	 */
 	public class StateEvent extends Event
@@ -22,11 +23,6 @@ package engine.events
 			
 			this.newState = newState;
 			this.currentState = currentState;
-		}
-		
-		public function get State():IState
-		{
-			return state;
 		}
 	}
 }
