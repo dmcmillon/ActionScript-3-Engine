@@ -6,7 +6,7 @@ package engine.actor
 	import flash.geom.Matrix;
 	import flash.text.TextField;
 	/**
-	 * Actor for textfields. This is a struct that holds a textfield and its location in 2d space.
+	 * Actor for textfields. This is a struct that holds a textfield and the textfield's location in 2d space.
 	 * Allows textfields to be displayed using scenemanager.
 	 * @author Daniel McMillon
 	 */
