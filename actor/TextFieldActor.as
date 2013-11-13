@@ -6,11 +6,12 @@ package engine.actor
 	import flash.geom.Matrix;
 	import flash.text.TextField;
 	/**
-	 * ...
+	 * Actor for textfields. This is a struct that holds a textfield and its location in 2d space.
 	 * @author Daniel McMillon
 	 */
 	public class TextFieldActor implements IDisplayable
 	{
+		//The location of the textfield.
 		private var matrix:Matrix;
 		private var image:TextField;
 		

@@ -4,7 +4,7 @@ package engine.display
 	import flash.geom.Matrix;
 	
 	/**
-	 * ...
+	 * Interface for objects that can be desplayed on screen.
 	 * @author Daniel McMillon
 	 */
 	public interface IDisplayable 
