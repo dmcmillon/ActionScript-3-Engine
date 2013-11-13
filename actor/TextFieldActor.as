@@ -7,6 +7,7 @@ package engine.actor
 	import flash.text.TextField;
 	/**
 	 * Actor for textfields. This is a struct that holds a textfield and its location in 2d space.
+	 * Allows textfields to be displayed using scenemanager.
 	 * @author Daniel McMillon
 	 */
 	public class TextFieldActor implements IDisplayable
