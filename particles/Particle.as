@@ -2,6 +2,7 @@ package engine.particles
 {
 	import engine.maths.Vector2D;
 	import engine.pool.IPoolable;
+	import engine.display.IDisplayable;
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.geom.Matrix;
@@ -9,7 +10,7 @@ package engine.particles
 	/**
 	 * Struct that holds the different attributes of a particles
 	 */
-	public class Particle implements IPoolable
+	public class Particle implements IPoolable, IDisplayable
 	{
 		public var velocity:Vector2D;
 		public var lifetime:int = 0;
@@ -41,16 +42,16 @@ package engine.particles
 			alive = value;
 		}
 		
-		public function set Image(graphic:Shape):void
+		public function set Image(image:DisplayObject):void
 		{
-			if ( graphic )
+			if ( image )
 			{
 				displayObject = new Shape();
-				displayObject.graphics.copyFrom(graphic.graphics);
+				displayObject.graphics.copyFrom(Shape(image).graphics);
 			}
 		}
 		
-		public function get Image():Shape
+		public function get Image():DisplayObject
 		{
 			if ( displayObject == null )
 			{
@@ -69,7 +70,7 @@ package engine.particles
 			updateMatrix();
 		}
 		
-		public function get imageMatrix():Matrix
+		public function get ImageMatrix():Matrix
 		{			
 			return matrix;
 		}

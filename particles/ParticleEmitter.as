@@ -140,7 +140,7 @@ package engine.particles
 			{				
 				if ( particleList[i].lifetime < 0 ) 
 				{
-					scenemanager.removeFromForegroundLayer(particleList[i].Image);
+					scenemanager.removeFromForeground(particleList[i]);
 					pool.releaseResource(particleList[i]);
 					particleList.splice(i, 1);
 					i--;
@@ -172,7 +172,7 @@ package engine.particles
 			particle.lifetime = particleLifetime + (particleLifetimeVariation * randomNumber());
 			
 			particleList.push(particle);
-			scenemanager.addToForegroundLayer(particle.Image, particle.imageMatrix);
+			scenemanager.addToForeground(particle);
 			
 			for ( var beginningEffectIndex:int = 0; beginningEffectIndex < initialEffects.length; beginningEffectIndex++ )
 			{
