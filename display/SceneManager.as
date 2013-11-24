@@ -22,10 +22,7 @@ package engine.display
 		private var sceneWidth:Number = 0.0;
 		private var sceneHeight:Number = 0.0;
 		
-		//vectors to hold objects in different layers. The game layer is drawn behind the foreground and the background is drawn behind the game layer.
-		private var foregroundLayer:Vector.<IDisplayable>;
-		private var backgroundLayer:Vector.<IDisplayable>;
-		private var gameLayer:Vector.<IDisplayable>;
+		private var sceneGraph:SceneGraph;
 		
 		//The game world is displayed on a bitmap instead of the stage to take advantage of blitting.
 		private var sceneData:BitmapData;
@@ -51,9 +48,7 @@ package engine.display
 		
 		public function SceneManager(dummy:MakeSingleton)
 		{
-			foregroundLayer = new Vector.<IDisplayable>();
-			backgroundLayer = new Vector.<IDisplayable>();
-			gameLayer = new Vector.<IDisplayable>();
+			sceneGraph = new SceneGraph();
 		}
 		
 		public static function getInstance():SceneManager
@@ -78,86 +73,53 @@ package engine.display
 		/**
 		 * Draws the different layers to the scene.
 		 */
-		public function renderScene():void
+		public function render():void
 		{
 			sceneData.fillRect(new Rectangle(0, 0, sceneData.width, sceneData.height), 0);
 			
-			sceneData.lock();
-			renderLayer(backgroundLayer);
-			renderLayer(gameLayer);
-			renderLayer(foregroundLayer);
-			sceneData.unlock();
+			sceneGraph.traverse(renderNode);
 		}
 		
 		/**
 		 * Draws an individual layer (background, game, foreground).
 		 * @param	layer	The layer that is being drawn.
 		 */
-		private function renderLayer(layer:Vector.<IDisplayable>):void
+		private function renderNode(actor:IDisplayable, imageMatrix:Matrix):void
 		{
 			//Each display object is first copied to a bitmap data object. The bitmap data object is then copied to the scene.
-			for ( var index:int = 0; index < layer.length; index++ )
-			{
-				var image:BitmapData = new BitmapData(layer[index].Image.width + 2, layer[index].Image.height + 2, true, 0x00000000);
-				image.draw(layer[index].Image, matrix);
-				sceneData.draw(image, layer[index].ImageMatrix, null, null, null, true);
-			}
-		}
-	
-		private function traverseSceneGraph():void
-		{
-			
+			var image:BitmapData = new BitmapData(actor.Image.width + 2, actor.Image.height + 2, true, 0);
+			image.draw(actor.Image, matrix);
+			sceneData.draw(image, imageMatrix, null, null, null, true);
 		}
 		
 		public function addToForeground(actor:IDisplayable):void
 		{
-			foregroundLayer.push(actor);
+			sceneGraph.addNode(actor, SceneGraph.FOREGROUND_LAYER);
 		}
 		
 		public function addToBackground(actor:IDisplayable):void
 		{	
-			backgroundLayer.push(actor);
+			sceneGraph.addNode(actor, SceneGraph.BACKGROUND_LAYER);
 		}
 		
 		public function addToGameLayer(actor:IDisplayable):void
 		{
-			gameLayer.push(actor);
+			sceneGraph.addNode(actor, SceneGraph.GAME_LAYER);
 		}
 		
 		public function removeFromForeground(actor:IDisplayable):void
 		{
-			for ( var x:int = 0; x < foregroundLayer.length; x++ )
-			{
-				if ( foregroundLayer[x] == actor )
-				{
-					foregroundLayer.splice(x, 1);
-					break;
-				}
-			}
+			sceneGraph.removeNode(actor, SceneGraph.FOREGROUND_LAYER);
 		}
 		
 		public function removeFromBackground(actor:IDisplayable):void
 		{
-			for ( var x:int = 0; x < backgroundLayer.length; x++ )
-			{
-				if ( backgroundLayer[x] == actor )
-				{
-					backgroundLayer.splice(x, 1);
-					break;
-				}
-			}
+			sceneGraph.removeNode(actor, SceneGraph.BACKGROUND_LAYER);
 		}
 		
 		public function removeFromGameLayer(actor:IDisplayable):void
 		{
-			for ( var x:int = 0; x < gameLayer.length; x++ )
-			{
-				if ( gameLayer[x] == actor )
-				{
-					gameLayer.splice(x, 1);
-					break;
-				}
-			}
+			sceneGraph.removeNode(actor, SceneGraph.GAME_LAYER);
 		}
 	}
 }

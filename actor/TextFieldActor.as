@@ -6,7 +6,7 @@ package engine.actor
 	import flash.geom.Matrix;
 	import flash.text.TextField;
 	/**
-	 * Actor for textfields. This is a struct that holds a textfield and the textfield's location in 2d space.
+	 * Actor for textfields. This is a struct that holds a textfield and its location in 2d space.
 	 * Allows textfields to be displayed using scenemanager.
 	 * @author Daniel McMillon
 	 */
@@ -15,11 +15,22 @@ package engine.actor
 		//The location of the textfield.
 		private var matrix:Matrix;
 		private var image:TextField;
+		private var isVisible:Boolean = true;
 		
 		public function TextFieldActor(textfield:TextField, position:Vector2D) 
 		{
 			image = textfield;
 			matrix = new Matrix(2, 0, 0, 2, position.x, position.y);
+		}
+		
+		public function get IsVisible():Boolean
+		{
+			return isVisible;
+		}
+		
+		public function set IsVisible(visibility:Boolean):void
+		{
+			isVisible = visibility;
 		}
 		
 		public function set Position(position:Vector2D):void

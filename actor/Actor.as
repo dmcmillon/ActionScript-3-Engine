@@ -2,17 +2,22 @@ package engine.actor
 {
 	import engine.collision.box.AABB;
 	import engine.collision.circle.BoundingCircle;
+	import engine.events.ChildEvent;
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.geom.Matrix;
 	import flash.utils.ByteArray;
-
+	import flash.events.IEventDispatcher
+	
 	import engine.collision.box.ICollisionBox;
 	import engine.pool.IPoolable;
 	import engine.physics.movement.BaseMovementPhysics;
 	import engine.maths.Vector2D;
 	import engine.maths.MathHelper;
+	import engine.display.IDisplayable;
 	
 	/**
 	 * Container that holds data for visible objects on screen. This is the base class for all visible entities.
@@ -20,8 +25,8 @@ package engine.actor
 	 * @author Daniel McMillon
 	 */
 
-	public class Actor implements IPoolable
-	{
+	public class Actor extends EventDispatcher implements IPoolable, IEventDispatcher, IDisplayable
+	{		
 		//Flags used for collision detection. AABB and BoundingCircle are bounding objects that allow for quick rejection of objects while doing collision detection.
 		//They reject objects before more advanced and costly collision detection needs to be done.
 		//Axis-Aligned Bounding Box not implemented yet
@@ -30,6 +35,8 @@ package engine.actor
 		
 		public var isCollideable:Boolean = false;
 		
+		protected var isVisible:Boolean = true;
+		
 		protected var image:DisplayObject;
 		protected var collisionBox:ICollisionBox;
 		protected var physics:BaseMovementPhysics;
@@ -37,6 +44,12 @@ package engine.actor
 		protected var rotation:Number;
 		protected var scaleX:Number;
 		protected var scaleY:Number;
+		
+		//A vector of child actors. Used to create a parent-child hierarchy of actors.
+		protected var children:Vector.<Actor>;
+		
+		//The parent actor.
+		protected var parent:Actor;
 		
 		//Axis Aligned Bounding Box
 		//private var aabb:AABB = null;
@@ -52,6 +65,9 @@ package engine.actor
 		public function Actor()
 		{
 			matrix = new Matrix();
+			
+			children = new Vector.<Actor>();
+			parent = null;			
 		}
 		
 		/**
@@ -77,7 +93,6 @@ package engine.actor
 			
 			this.physics = physics;
 			
-			
 			if ( (bound & Actor.BOUNDING_CIRCLE) == Actor.BOUNDING_CIRCLE )
 			{
 				var radius:Vector2D = new Vector2D((0, (image.height * scaleY) >> 1));
@@ -93,6 +108,78 @@ package engine.actor
 			CollisionBox = collisionBox;
 			
 			alive = true;
+		}
+		
+		public function addChild(child:Actor):void
+		{
+			if ( child.parent != null )
+			{
+				throw new Error("Actor must not have a parent!");
+			}
+			
+			child.parent = this;
+			children.push(child);
+			
+			var childAddedEvent:ChildEvent = new ChildEvent(ChildEvent.CHILD_ADDED);
+			childAddedEvent.childActor = child;
+			
+			dispatchEvent(childAddedEvent);
+			//TODO: Add actor to scene graph and its children.
+		}
+		
+		public function removeChild(child:Actor):void
+		{
+			if ( child.parent != this )
+			{
+				throw new Error("Actor must be a child of this actor to remove it!");
+			}
+			
+			child.parent = null;
+			
+			for ( var x:int = 0; x < children.length; x++ )
+			{
+				if ( child == children[x] )
+				{
+					children.splice(x, 1);
+					break;
+				}
+			}
+			
+			var childRemovedEvent:ChildEvent = new ChildEvent(ChildEvent.CHILD_REMOVED);
+			childRemovedEvent.childActor = child;
+			
+			dispatchEvent(childRemovedEvent);
+			//TODO: Remove actor from scene graph and its children.
+		}
+		
+		public function toggleVisible():void
+		{
+			isVisible = !isVisible;
+		}
+		
+		public function get IsVisible():Boolean
+		{
+			return isVisible;
+		}
+		
+		public function set IsVisible(visibility:Boolean):void
+		{
+			isVisible = visibility;
+		}
+		
+		public function get Children():Vector.<Actor>
+		{
+			return children.slice(0, children.length);
+		}
+		
+		public function get numChildren():int
+		{
+			return children.length;
+		}
+		
+		public function get Parent():Actor
+		{
+			return parent;
 		}
 		
 		public function get Image():DisplayObject

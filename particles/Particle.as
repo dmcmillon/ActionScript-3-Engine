@@ -24,6 +24,8 @@ package engine.particles
 		private var matrix:Matrix;
 		private var rotation:Number;
 		
+		private var isVisible:Boolean = true;
+		
 		public function Particle()
 		{
 			position = new Vector2D();
@@ -40,6 +42,16 @@ package engine.particles
 		public function set isAlive(value:Boolean):void
 		{
 			alive = value;
+		}
+		
+		public function set IsVisible(visibility:Boolean):void
+		{
+			isVisible = visibility
+		}
+		
+		public function get IsVisible():Boolean
+		{
+			return isVisible;
 		}
 		
 		public function set Image(image:DisplayObject):void
