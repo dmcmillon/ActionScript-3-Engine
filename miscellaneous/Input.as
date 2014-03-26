@@ -25,6 +25,7 @@ package engine.miscellaneous
 		private var aKey:Boolean = false;
 		private var sKey:Boolean = false;
 		private var dKey:Boolean = false;
+		private var rKey:Boolean = false;
 		
 		private var wasKeyPressed:Boolean = false;
 		
@@ -40,6 +41,7 @@ package engine.miscellaneous
 		public function get A():Boolean { return aKey; }
 		public function get S():Boolean { return sKey; }
 		public function get D():Boolean { return dKey; }
+		public function get R():Boolean { return rKey; }
 		
 		public static function getInstance():Input
 		{
@@ -70,7 +72,8 @@ package engine.miscellaneous
 			if ( event.keyCode == Keyboard.W ) { wKey = false; }	
 			if ( event.keyCode == Keyboard.A ) { aKey = false; }	
 			if ( event.keyCode == Keyboard.S ) { sKey = false; }	
-			if ( event.keyCode == Keyboard.D ) { dKey = false; }	
+			if ( event.keyCode == Keyboard.D ) { dKey = false; }
+			if ( event.keyCode == Keyboard.R ) { rKey = false; }
 		}
 		
 		private function onKeyDown(event:KeyboardEvent):void
@@ -86,7 +89,8 @@ package engine.miscellaneous
 			if ( event.keyCode == Keyboard.W ) { wKey = true; }	
 			if ( event.keyCode == Keyboard.A ) { aKey = true; }	
 			if ( event.keyCode == Keyboard.S ) { sKey = true; }	
-			if ( event.keyCode == Keyboard.D ) { dKey = true; }	
+			if ( event.keyCode == Keyboard.D ) { dKey = true; }
+			if ( event.keyCode == Keyboard.R ) { rKey = true; }
 		}
 	}
 }	

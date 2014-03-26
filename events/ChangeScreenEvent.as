@@ -15,10 +15,13 @@ package engine.events
 		public static const REMOVE_OVERLAY_SCREEN:String = "removeOverlayScreen";
 		
 		public var nextScreen:IGameScreen;
+		public var extraInfo:Array;
 		
 		public function ChangeScreenEvent(type:String, bubbles:Boolean = false, cancelable:Boolean = false) 
 		{
 			super(type, bubbles, cancelable);
+			
+			extraInfo = new Array();
 		}
 	}
 }

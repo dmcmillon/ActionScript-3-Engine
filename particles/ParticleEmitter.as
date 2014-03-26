@@ -78,6 +78,13 @@ package engine.particles
 		//A pool of the particles
 		private var pool:ObjectPool;
 		
+		private var isAlive:Boolean;
+		
+		public function get IsAlive():Boolean
+		{
+			return isAlive;
+		}
+		
 		public function ParticleEmitter(x:int, y:int, maxParticles:int = -1, particleGraphics:Shape = null)
 		{
 			this.x = x;
@@ -94,6 +101,8 @@ package engine.particles
 			pool = new ObjectPool(particleFactory.create);
 			
 			scenemanager = SceneManager.getInstance();
+			
+			isAlive = true;
 		}
 		
 		public function tick(deltaTime:Number):void
@@ -121,6 +130,13 @@ package engine.particles
 					
 					emitterLifetime--;
 					elapsed = 0;
+				}
+			}
+			else
+			{
+				if ( particleList.length == 0 )
+				{
+					isAlive = false;
 				}
 			}
 			

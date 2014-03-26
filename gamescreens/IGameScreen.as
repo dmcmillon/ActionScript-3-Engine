@@ -16,5 +16,4 @@ package engine.gamescreens
 		//function called when screen is destroyed.
 		function teardown():void;
 	}
-	
 }

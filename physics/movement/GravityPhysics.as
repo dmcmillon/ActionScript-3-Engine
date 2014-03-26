@@ -9,6 +9,7 @@ package engine.physics.movement
 	{
 		private var gravitationalConstant:Number = 0.0015;
 		private var velocity:Vector2D;
+		private var maxVelocity:Number;
 		
 		public function GravityPhysics()
 		{
@@ -20,9 +21,10 @@ package engine.physics.movement
 			return velocity;
 		}
 		
-		public function init(initialVelocity:Vector2D):void
+		public function init(initialVelocity:Vector2D, maxVelocity:Number):void
 		{
 			velocity = initialVelocity;
+			this.maxVelocity = maxVelocity;
 		}
 		
 		public function accelerate(currentPosition:Vector2D, mass:Number, position:Vector2D, deltaTime:Number):Vector2D
@@ -36,7 +38,7 @@ package engine.physics.movement
 			
 			velocity = velocity.add(acceleration.multiply(deltaTime));
 			velocity.normalize();
-			velocity = velocity.multiply(4);
+			velocity = velocity.multiply(maxVelocity);
 			
 			return velocity;
 		}

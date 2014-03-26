@@ -1,7 +1,7 @@
 package engine.statemachine 
 {
 	//import engine.actor.Actor;
-	//BaseEntity - not implemented yet.
+	//BaseEntity
 	import engine.miscellaneous.ITickable;
 	import flash.events.EventDispatcher;
 	

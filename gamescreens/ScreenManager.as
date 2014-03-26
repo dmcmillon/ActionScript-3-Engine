@@ -52,32 +52,54 @@ package engine.gamescreens
 		
 		public function tick(deltaTime:Number):void
 		{
-			screenStack[screenStack.length - 1].tick(deltaTime);
+			for ( var x:int = 0; x < screenStack.length; x++ )
+			{
+				screenStack[x].tick(deltaTime);
+			}
 		}
 		
-		public function newScreenListener(event:ChangeScreenEvent):void
+		private function passData(screen:IGameScreen, data:Array):void
 		{
-			if ( IGameScreen(event.nextScreen) == screenStack[screenStack.length - 1] )
+			if (  data.length > 0 )
+			{
+				IReceiveData(screen).passData(data);
+			}
+		}
+		
+		private function newScreenListener(event:ChangeScreenEvent):void
+		{
+			if ( event.nextScreen == screenStack[screenStack.length - 1] )
 			{
 				return;
 			}
 			
 			removeScreen();
-			addScreen((IGameScreen)(event.nextScreen));
+			
+			if ( event.nextScreen is IReceiveData )
+			{
+				passData(event.nextScreen, event.extraInfo);
+			}
+			
+			addScreen(event.nextScreen);
 		}
 		
-		public function newOverlayScreen(event:ChangeScreenEvent):void
+		private function newOverlayScreen(event:ChangeScreenEvent):void
 		{
-			if ( IGameScreen(event.nextScreen) == screenStack[screenStack.length - 1] )
+			if ( event.nextScreen == screenStack[screenStack.length - 1] )
 			{
 				return;
 			}
 			
+			if ( event.nextScreen is IReceiveData )
+			{
+				passData(event.nextScreen, event.extraInfo);
+			}
+			
 			screenStack[screenStack.length - 1].sleep();
-			addScreen((IGameScreen)(event.nextScreen));
+			addScreen(event.nextScreen);
 		}
 		
-		public function removeOverlayScreen(event:ChangeScreenEvent):void
+		private function removeOverlayScreen(event:ChangeScreenEvent):void
 		{
 			removeScreen();
 			screenStack[screenStack.length - 1].setup();
