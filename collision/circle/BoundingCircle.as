@@ -1,6 +1,6 @@
 package engine.collision.circle 
 {
-	import engine.maths.Vector2D;
+	import engine.math.Vector2D;
 	import flash.geom.Point;
 	/**
 	 * Represents a bounding circle and handles collision detection with other bounding circles.
@@ -12,6 +12,8 @@ package engine.collision.circle
 		public var radius:Number;
 		
 		private var intersectionPoint:Vector2D;
+		
+		private var drawImage:Boolean = false;
 		
 		public function BoundingCircle(center:Vector2D, radius:Number) 
 		{
@@ -113,6 +115,19 @@ package engine.collision.circle
 			intersectionPoint = other.center.add(b);
 			
 			return intersectionPoint;
+		}
+		
+		public function toggleDraw():void
+		{
+			drawImage = !drawImage;
+		}
+		
+		private function drawImage():void
+		{
+			if ( drawImage )
+			{
+				//TODO: Draw the image!
+			}
 		}
 	}
 }

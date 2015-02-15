@@ -1,6 +1,6 @@
 package engine.miscellaneous 
 {
-	import engine.maths.Vector2D;
+	import engine.math.Vector2D;
 	import flash.text.TextField;
 	/**
 	 * ...
@@ -20,7 +20,7 @@ package engine.miscellaneous
 			var textfieldXPadding:int = 5;
 			
 			textfield = new TextField();
-			textfield.textColor = 0xffffff;
+			textfield.textColor = 0xFF0000;
 			textfield.text = "FPS: 00"; 
 			textfield.selectable = false;
 			textfield.scaleX = 3;

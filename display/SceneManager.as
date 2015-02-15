@@ -66,7 +66,7 @@ package engine.display
 			this.sceneWidth = sceneWidth;
 			this.sceneHeight = sceneHeight;
 			
-			sceneData = new BitmapData(sceneWidth, sceneHeight, true);
+			sceneData = new BitmapData(sceneWidth, sceneHeight, true, 0);
 			scene = new Bitmap(sceneData);
 		}
 		

@@ -1,7 +1,7 @@
 package engine.physics.movement 
 {
-	import engine.maths.MathHelper;
-	import engine.maths.Vector2D;
+	import engine.math.MathHelper;
+	import engine.math.Vector2D;
 	/**
 	 * ...
 	 * @author Daniel McMillon

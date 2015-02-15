@@ -1,4 +1,4 @@
-package engine.maths 
+package engine.math 
 {
 	/**
 	 * A 2D vector class.
@@ -40,16 +40,14 @@ package engine.maths
 			return x * vector.x + y * vector.y;
 		}
 		
+		//TODO: Test for zero vector case
 		public function normalize():void
 		{
 			var tempX:Number = x;
 			var tempY:Number = y;
 			
-			if ( x != 0 && y != 0 )
-			{
-				tempX /= magnitude();
-				tempY /= magnitude();
-			}
+			tempX /= magnitude();
+			tempY /= magnitude();
 			
 			x = tempX;
 			y = tempY;
@@ -81,6 +79,16 @@ package engine.maths
 		public function distanceSquared(point:Vector2D):Number
 		{
 			return ((x - point.x)*(x - point.x) + (y - point.y)*(y - point.y));
+		}
+		
+		//TODO: Test
+		public function truncate(maxLength:Number):void
+		{
+			if ( magnitude() > maxLength )
+			{
+				normalize();
+				multiply(maxLength);
+			}
 		}
 	}
 }
