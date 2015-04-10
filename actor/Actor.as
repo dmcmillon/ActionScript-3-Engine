@@ -15,8 +15,8 @@ package engine.actor
 	import engine.collision.box.ICollisionBox;
 	import engine.pool.IPoolable;
 	import engine.physics.movement.BaseMovementPhysics;
-	import engine.maths.Vector2D;
-	import engine.maths.MathHelper;
+	import engine.math.Vector2D;
+	import engine.math.MathHelper;
 	import engine.display.IDisplayable;
 	
 	/**
@@ -124,7 +124,6 @@ package engine.actor
 			childAddedEvent.childActor = child;
 			
 			dispatchEvent(childAddedEvent);
-			//TODO: Add actor to scene graph and its children.
 		}
 		
 		public function removeChild(child:Actor):void
@@ -149,7 +148,6 @@ package engine.actor
 			childRemovedEvent.childActor = child;
 			
 			dispatchEvent(childRemovedEvent);
-			//TODO: Remove actor from scene graph and its children.
 		}
 		
 		public function toggleVisible():void

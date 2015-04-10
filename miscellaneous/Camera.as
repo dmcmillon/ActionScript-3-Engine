@@ -1,7 +1,6 @@
 package engine.miscellaneous 
 {
-	import flash.display.Bitmap;
-	import engine.maths.MathHelper;
+	import flash.display.DisplayObject;
 	import flash.geom.Point;
 	
 	/**
@@ -10,7 +9,7 @@ package engine.miscellaneous
 	 */
 	public class Camera 
 	{
-		private var scene:Bitmap;
+		private var scene:DisplayObject;
 		
 		private var shakeSpeed:Number;
 		private var shakeTime:Number;
@@ -22,7 +21,7 @@ package engine.miscellaneous
 		private var sceneLocation:Point;		
 		private var cameraLocation:Point;
 		
-		public function Camera(scene:Bitmap) 
+		public function Camera(scene:DisplayObject) 
 		{
 			this.scene = scene;
 			

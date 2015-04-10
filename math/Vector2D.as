@@ -1,4 +1,4 @@
-package engine.maths 
+package engine.math 
 {
 	/**
 	 * A 2D vector class.
@@ -11,7 +11,7 @@ package engine.maths
 		
 		public static function zero():Vector2D
 		{
-			return new Vector2D(0.0, 0.0);
+			return new Vector2D();
 		}
 		
 		public function Vector2D(x:Number = 0.0, y:Number = 0.0) 
@@ -42,17 +42,17 @@ package engine.maths
 		
 		public function normalize():void
 		{
-			var tempX:Number = x;
-			var tempY:Number = y;
-			
-			if ( x != 0 && y != 0 )
+			if ( x != 0 || y != 0 )
 			{
+				var tempX:Number = x;
+				var tempY:Number = y;
+				
 				tempX /= magnitude();
 				tempY /= magnitude();
+				
+				x = tempX;
+				y = tempY;
 			}
-			
-			x = tempX;
-			y = tempY;
 		}
 		
 		public function magnitude():Number
@@ -81,6 +81,16 @@ package engine.maths
 		public function distanceSquared(point:Vector2D):Number
 		{
 			return ((x - point.x)*(x - point.x) + (y - point.y)*(y - point.y));
+		}
+		
+		//TODO: Test
+		public function truncate(maxLength:Number):void
+		{
+			if ( magnitude() > maxLength )
+			{
+				normalize();
+				multiply(maxLength);
+			}
 		}
 	}
 }

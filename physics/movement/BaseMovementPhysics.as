@@ -1,6 +1,6 @@
 package engine.physics.movement 
 {
-	import engine.maths.Vector2D;
+	import engine.math.Vector2D;
 	/**
 	 * Outputs a net force.
 	 * @author Daniel McMillon

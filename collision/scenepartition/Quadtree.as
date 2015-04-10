@@ -1,4 +1,4 @@
-package engine.scenePartition 
+package engine.collision.scenepartition 
 {
 	/**
 	 * This is my quadtree. It's not complete. I implemented putting the elements into the appropriate node, removing them from the node, and querying the node for 
@@ -81,15 +81,18 @@ package engine.scenePartition
 		
 		public function inBorder(element:):Boolean
 		{
-			return ( x <= element.x && y <= element.y && (x+width) >= element.x && (y+width) >= element.y );
+			
 		}
 		
 		public function subdivide():void
 		{
-			topLeft = new Quadtree(x, y, width / 2, height / 2, maxElements, maxDepth - 1);
-			topRight = new Quadtree((x + width) / 2, y, width / 2, height / 2, maxElements, maxDepth - 1);
-			bottomLeft = new Quadtree(x, (y + height) / 2, width / 2, height / 2, maxElements, maxDepth - 1);
-			bottomRight = new Quadtree((x + width) / 2, (y + height) / 2, width / 2, height / 2, maxElements, maxDepth - 1);
+			var childWidth:Number = width / 2;
+			var childHeight:Number = height / 2;
+			
+			topLeft = new Quadtree(x, y, childWidth, childHeight, maxElements, maxDepth - 1);
+			topRight = new Quadtree(x + width / 2, y, childWidth, childHeight, maxElements, maxDepth - 1);
+			bottomLeft = new Quadtree(x, y + height / 2, childWidth, childHeight, maxElements, maxDepth - 1);
+			bottomRight = new Quadtree(x + width / 2, y + height / 2, childWidth, childHeight, maxElements, maxDepth - 1);
 		}
 		
 		public function removeElements(element:):void
@@ -143,12 +146,4 @@ package engine.scenePartition
 			return tempArray;
 		}
 	}
-}
-
-internal class QuadtreeNode
-{
-	public var x;
-	public var y;
-	public var width;
-	public var height;
 }

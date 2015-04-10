@@ -1,4 +1,4 @@
-package engine.statemachine 
+package engine.ai.statemachine 
 {
 	/**
 	 * Interface for all states that are used by a state machine.

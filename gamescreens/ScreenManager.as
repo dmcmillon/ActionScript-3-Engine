@@ -3,28 +3,15 @@ package engine.gamescreens
 	import engine.gamescreens.IGameScreen;
 	import engine.events.ChangeScreenEvent;
 	import engine.miscellaneous.ITickable;
-	
 	/**
 	 * ...
 	 * @author Daniel McMillon
 	 */
 	public class ScreenManager implements ITickable
 	{
-		private static var instance:ScreenManager;
+		protected var screenStack:Vector.<IGameScreen>;
 		
-		private var screenStack:Vector.<IGameScreen>;
-		
-		public static function getInstance():ScreenManager
-		{
-			if ( instance == null )
-			{
-				instance = new ScreenManager(new MakeSingleton());
-			}
-			
-			return instance;
-		}
-		
-		public function ScreenManager(dummy:MakeSingleton)
+		public function ScreenManager()
 		{
 			screenStack = new Vector.<IGameScreen>;
 		}
@@ -105,9 +92,4 @@ package engine.gamescreens
 			screenStack[screenStack.length - 1].setup();
 		}
 	}
-}
-
-internal class MakeSingleton
-{
-	public function MakeSingleton()	{}
 }
