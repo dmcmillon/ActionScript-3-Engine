@@ -3,11 +3,13 @@ package engine.gamescreens
 	import engine.gamescreens.IGameScreen;
 	import engine.events.ChangeScreenEvent;
 	import engine.miscellaneous.ITickable;
+	import flash.display.DisplayObject;
+	import flash.display.Sprite;
 	/**
 	 * ...
 	 * @author Daniel McMillon
 	 */
-	public class ScreenManager implements ITickable
+	public class ScreenManager extends Sprite implements ITickable
 	{
 		protected var screenStack:Vector.<IGameScreen>;
 		
@@ -24,6 +26,7 @@ package engine.gamescreens
 			newScreen.setup();
 			
 			screenStack.push(newScreen);
+			addChild(newScreen as DisplayObject);
 		}
 		
 		public function removeScreen():void
@@ -32,25 +35,25 @@ package engine.gamescreens
 			screenStack[screenStack.length - 1].removeEventListener(ChangeScreenEvent.OVERLAY_SCREEN, newOverlayScreen);
 			screenStack[screenStack.length - 1].removeEventListener(ChangeScreenEvent.REMOVE_OVERLAY_SCREEN, removeOverlayScreen);
 			
+			removeChild(screenStack[screenStack.length - 1] as DisplayObject);
+			
+			screenStack[screenStack.length - 1].sleep();
 			screenStack[screenStack.length - 1].teardown();
 			
 			screenStack.pop();
 		}
 		
-		public function tick(deltaTime:Number):void
+		public function tick():void
 		{
-			for ( var x:int = 0; x < screenStack.length; x++ )
+			for ( var x:int = 0; x < screenStack.length - 1; x++ )
 			{
-				screenStack[x].tick(deltaTime);
+				if ( screenStack[x].tickWhileSleep )
+				{
+					screenStack[x].tick();
+				}
 			}
-		}
-		
-		private function passData(screen:IGameScreen, data:Array):void
-		{
-			if (  data.length > 0 )
-			{
-				IReceiveData(screen).passData(data);
-			}
+			
+			screenStack[screenStack.length - 1].tick();
 		}
 		
 		private function newScreenListener(event:ChangeScreenEvent):void
@@ -60,11 +63,9 @@ package engine.gamescreens
 				return;
 			}
 			
-			removeScreen();
-			
-			if ( event.nextScreen is IReceiveData )
+			for ( var x:int = 0; x < screenStack.length; x++ )
 			{
-				passData(event.nextScreen, event.extraInfo);
+				removeScreen();
 			}
 			
 			addScreen(event.nextScreen);
@@ -75,11 +76,6 @@ package engine.gamescreens
 			if ( event.nextScreen == screenStack[screenStack.length - 1] )
 			{
 				return;
-			}
-			
-			if ( event.nextScreen is IReceiveData )
-			{
-				passData(event.nextScreen, event.extraInfo);
 			}
 			
 			screenStack[screenStack.length - 1].sleep();

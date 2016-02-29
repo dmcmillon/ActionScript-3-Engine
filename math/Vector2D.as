@@ -6,6 +6,22 @@ package engine.math
 	 */
 	public class Vector2D 
 	{
+		public static function dotProduct(vector1:Vector2D, vector2:Vector2D):Number
+		{
+			return vector1.x * vector2.x + vector1.y * vector2.y;
+		}
+		
+		public static function distance(point1:Vector2D, point2:Vector2D):Number
+		{
+			return (Math.sqrt((point1.x - point2.x)*(point1.x - point2.x) + (point1.y - point2.y)*(point1.y - point2.y)));
+		}
+		
+		//Faster than function distance because no square root. Use when comparing distances.
+		public function distanceSquared(point1:Vector2D, point2:Vector2D):Number
+		{
+			return ((point1.x - point2.x)*(point1.x - point2.x) + (point1.y - point2.y)*(point1.y - point2.y));
+		}
+		
 		public var x:Number;
 		public var y:Number;
 		
@@ -25,9 +41,21 @@ package engine.math
 			return new Vector2D(x + vector.x, y + vector.y);
 		}
 		
+		public function addToVector(vector:Vector2D):void
+		{
+			x += vector.x;
+			y += vector.y;
+		}
+		
 		public function subtract(vector:Vector2D):Vector2D
 		{
 			return new Vector2D(x - vector.x, y - vector.y);
+		}
+		
+		public function subtractFromVector(vector:Vector2D):void
+		{
+			x -= vector.x;
+			y -= vector.y;
 		}
 		
 		public function multiply(scalar:Number):Vector2D
@@ -35,9 +63,10 @@ package engine.math
 			return new Vector2D(scalar * x, scalar * y);
 		}
 		
-		public function dotProduct(vector:Vector2D):Number
+		public function multiplyToVector(scalar:Number):void
 		{
-			return x * vector.x + y * vector.y;
+			x *= scalar;
+			y *= scalar;
 		}
 		
 		public function normalize():void
@@ -70,17 +99,6 @@ package engine.math
 		{
 			x = 0.0;
 			y = 0.0;
-		}
-			
-		public function distance(point:Vector2D):Number
-		{
-			return (Math.sqrt((x - point.x)*(x - point.x) + (y - point.y)*(y - point.y)));
-		}
-		
-		//Faster than function distance because no square root. Use when comparing distances.
-		public function distanceSquared(point:Vector2D):Number
-		{
-			return ((x - point.x)*(x - point.x) + (y - point.y)*(y - point.y));
 		}
 		
 		//TODO: Test
