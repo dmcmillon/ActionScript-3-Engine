@@ -1,11 +1,12 @@
 package engine.gamescreens 
 {
 	import engine.miscellaneous.ITickable;
+	import flash.events.IEventDispatcher;
 	/**
 	 * Interface for all game screens (ie game screen, menu screen, instruction screen, credits, etc.) that are placed on the screen stack.
 	 * @author Daniel McMillon
 	 */
-	public interface IGameScreen extends ITickable
+	public interface IGameScreen extends ITickable, IEventDispatcher
 	{
 		//True if screen continues to update when it looses focus, false otherwise. 
 		function get tickWhileSleep():Boolean;

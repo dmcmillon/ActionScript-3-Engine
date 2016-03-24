@@ -3,6 +3,7 @@ package engine.actor
 	import engine.collision.box.AABB;
 	import engine.collision.circle.BoundingCircle;
 	import engine.events.ChildEvent;
+	import engine.physics.movement.IMovementPhysics;
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -14,7 +15,6 @@ package engine.actor
 	
 	import engine.collision.box.ICollisionBox;
 	import engine.pool.IPoolable;
-	import engine.physics.movement.BaseMovementPhysics;
 	import engine.math.Vector2D;
 	import engine.math.MathHelper;
 	import engine.display.IDisplayable;
@@ -25,8 +25,8 @@ package engine.actor
 	 * @author Daniel McMillon
 	 */
 
-	public class Actor extends Sprite implements IPoolable
-	{		
+	public class Actor extends Sprite //implements IPoolable
+	{		/*
 		//public static const AXIS_ALIGNED_BOUNDING_BOX:uint = 1;
 		
 		protected var _isCollideable:Boolean = false;
@@ -34,19 +34,17 @@ package engine.actor
 		protected var _isVisible:Boolean = true;
 		
 		protected var _collisionBox:ICollisionBox;
-		protected var _speed:Number;
-		protected var _velocity:Vector2D;
-		protected var _position:Vector2D;
+		
+		protected var _physics:IMovementPhysics;
 		
 		//Axis Aligned Bounding Box
 		//private var aabb:AABB = null;
 		
 		protected var _isAlive:Boolean;
-		
+		*/
 		public function Actor()
 		{
-			_position = new Vector2D();
-			_velocity = new Vector2D();
+			
 		}
 		
 		/**
@@ -61,22 +59,18 @@ package engine.actor
 		 * 							If bound is passed 1 the actor is assigned an AABB. If passed 2 the actor is assigned a bounding circle. 
 		 * 							Bound can be passed both 1 and 2 for both an AABB and bounding circle to be assigned to the actor.
 		 */
+		
+		 /*
 		public function init():void
 		{
-			/*
+			
 			_position = position;
 			
 			_physics = physics;
 			
 			_collisionBox = collisionBox;
-			*/
+			
 			_isAlive = true;
-		}
-		
-		public function move(direction:Vector2D):void
-		{
-			trace("I'm trying to override this");
-			//TODO: delete or change to physics object
 		}
 		
 		public function toggleVisibility():void
@@ -116,16 +110,53 @@ package engine.actor
 			}
 		}
 		
+		public function set physics(value:IMovementPhysics):void
+		{
+			_physics = value;
+		}
+		
+		
+		
+		public function get position():Vector2D
+		{
+			var pos:Vector2D;
+			
+			if ( _physics != null )
+			{
+				//pos = 
+			}
+			return _physics.position;
+		}
+		
+		public function set position(value:Vector2D):void
+		{
+			_physics.position = value;
+			x = value.x;
+			y = value.y;
+			
+			if ( _collisionBox != null )
+			{
+				_collisionBox.updatePosition(_position.x - ((width * scaleX) >> 1), _position.y - ((height * scaleY) >> 1));
+			}
+		}
+		
 		public function get velocity():Vector2D
 		{
 			return _velocity;
 		}
 		
-		public function set physics(value:Vector2D):void
+		public function set velocity(value:Vector2D):void
 		{
 			_velocity = value;
 		}
 		
+		private var _maxSpeed:Number = Number.MAX_VALUE;
+		private var _speed:Number;
+		
+		private var _rotation:Number;
+		private var _rotationSpeed:Number;
+		
+		private var _thrust:Number;
 		public function get speed():Number
 		{
 			return _speed;
@@ -136,22 +167,11 @@ package engine.actor
 			_speed = value;
 		}
 		
-		public function get position():Vector2D
-		{
-			return _position;
-		}
 		
-		public function set position(value:Vector2D):void
-		{
-			_position = value;
-			x = value.x;
-			y = value.y;
-			
-			if ( _collisionBox != null )
-			{
-				_collisionBox.updatePosition(_position.x - ((width * scaleX) >> 1), _position.y - ((height * scaleY) >> 1));
-			}
-		}
+		
+		
+		
+		
 		
 		public function get isAlive():Boolean
 		{
@@ -161,6 +181,6 @@ package engine.actor
 		public function set isAlive(value:Boolean):void
 		{
 			_isAlive = value;
-		}
+		}*/
 	}
 }

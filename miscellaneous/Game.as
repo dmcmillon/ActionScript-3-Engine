@@ -24,10 +24,10 @@ package engine.miscellaneous
 			input = Input.getInstance();
 			
 			tickables = new Vector.<ITickable>();
+			tickables.push(screenManager);
 			
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-			
 		}
 		
 		private function onAddedToStage(event:Event):void

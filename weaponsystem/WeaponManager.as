@@ -1,6 +1,5 @@
 package engine.weaponsystem 
 {
-	import engine.display.SceneManager;
 	import engine.events.BulletCreatedEvent;
 	import engine.events.IndexOutOfRange;
 	import engine.math.Vector2D;
@@ -26,7 +25,6 @@ package engine.weaponsystem
 		{
 			equippedWeapons = new Vector.<AbstractFiringWeapon>();
 			
-			sceneManager = SceneManager.getInstance();
 			tickables = new Vector.<ITickable>();
 		}
 		
