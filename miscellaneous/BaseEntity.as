@@ -1,24 +1,22 @@
 package engine.miscellaneous 
 {
+	import flash.display.Sprite;
 	/**
 	 * ...
 	 * @author Daniel McMillon
 	 */
-	public class BaseEntity 
+	public class BaseEntity extends Sprite
 	{
-		private var id:int;
+		private var entityName:String;		
 		
-		private static var nextAvailableID:int = 0;
-		
-		public function BaseEntity()
+		public function BaseEntity(entityName:String = "")
 		{
-			id = nextAvailableID;
-			nextAvailableID++;
+			this.entityName = entityName;
 		}
 		
-		public function get ID():int
+		public function get EntityName():String
 		{
-			return id;
+			return entityName;
 		}
 	}
 }

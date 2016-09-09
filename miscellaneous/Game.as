@@ -16,6 +16,8 @@ package engine.miscellaneous
 		
 		protected var tickables:Vector.<ITickable>;
 		
+		private var previousTime:Number = 0;
+		
 		public function Game() 
 		{
 			screenManager = new ScreenManager();
@@ -50,7 +52,7 @@ package engine.miscellaneous
 			
 			for ( var x:int = 0; x < tickables.length; x++ )
 			{
-				tickables[x].tick();
+				tickables[x].tick(deltaTime);
 			}
 		}
 	}

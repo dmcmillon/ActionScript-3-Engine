@@ -7,6 +7,6 @@ package engine.miscellaneous
 	 */
 	public interface ITickable 
 	{
-		function tick():void;
+		function tick(deltaTime:Number):void;
 	}
 }

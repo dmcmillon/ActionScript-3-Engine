@@ -43,17 +43,17 @@ package engine.gamescreens
 			screenStack.pop();
 		}
 		
-		public function tick():void
+		public function tick(deltaTime:Number):void
 		{
 			for ( var x:int = 0; x < screenStack.length - 1; x++ )
 			{
 				if ( screenStack[x].tickWhileSleep )
 				{
-					screenStack[x].tick();
+					screenStack[x].tick(deltaTime);
 				}
 			}
 			
-			screenStack[screenStack.length - 1].tick();
+			screenStack[screenStack.length - 1].tick(deltaTime);
 		}
 		
 		private function newScreenListener(event:ChangeScreenEvent):void

@@ -1,12 +1,13 @@
 package engine.collision.circle 
 {
+	import engine.collision.IBoundingVolume;
 	import engine.math.Vector2D;
 	import flash.geom.Point;
 	/**
 	 * Represents a bounding circle and handles collision detection with other bounding circles.
 	 * @author Daniel McMillon
 	 */
-	public class BoundingCircle
+	public class BoundingCircle implements IBoundingVolume
 	{
 		public var center:Vector2D;
 		public var radius:Number;

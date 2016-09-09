@@ -1,6 +1,6 @@
 package engine.events 
 {
-	import engine.weaponsystem.AbstractBullet;
+	import engine.weaponsystem.IBullet;
 	import flash.events.Event;
 	
 	/**
@@ -11,7 +11,7 @@ package engine.events
 	{
 		public static const BULLET_CREATED:String = "bulletCreated";
 		
-		public var bullet:AbstractBullet;
+		public var bullet:IBullet;
 		
 		public function BulletCreatedEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false) 
 		{ 

@@ -1,55 +1,75 @@
 package engine.collision.box 
 {
-	import engine.math.Vector2D;
+	import engine.collision.IBoundingVolume;
 	import flash.display.DisplayObject;
-	import flash.geom.Matrix;
+	import flash.display.Sprite;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	/**
 	 * Axis Aligned Bounding Box
 	 * @author Daniel McMillon
 	 */
-	public class AABB 
+	public class AABB implements IBoundingVolume
 	{
-		private var min:Point;
-		private var max:Point;
-		private var center:Point;
+		private var _min:Point;
+		private var _max:Point;
 		
-		public function get top():Number
-		{
-			return min.y;
-		}
+		private var _owner:DisplayObject;
 		
-		public function get bottom():Number
+		public function AABB(owner:DisplayObject,  min:Point = null, max:Point = null) 
 		{
-			return max.y;
-		}
-		
-		public function get left():Number
-		{
-			return min.x;
-		}
-		
-		public function get right():Number
-		{
-			return max.x
-		}
-		
-		public function AABB(min:Point, max:Point) 
-		{
-			this.min = min;
-			this.max = max;
+			_owner = owner;
 			
-			center = new Point((min.x + max.x) / 2, (min.y + max.y) / 2);
+			_min = min;
+			_max = max;
 		}
 		
-		public function intersectsAABB(other:AABB):Boolean
+		public function intersects(volume:IBoundingVolume):Boolean
 		{
-			if ( top > other.bottom ) { return false; }
-			if ( bottom < other.top ) { return false; }
-			if ( left > other.right ) { return false; }
-			if ( right < other.left ) { return false; }
+			var isIntersection:Boolean = false;
+			
+			if ( volume is AABB ) 
+			{
+				isIntersection = intersectsAABB(volume as AABB);
+			}
+			
+			//if ( volume is BoundingCircle )
+			//{
+				//return intersectsCircle(volume);
+			//}
+			
+			return isIntersection;
+		}
+		
+		public function update(min:Point, max:Point)
+		{
+			_min = min;
+			_max = max;
+		}
+		
+		private function intersectsAABB(other:AABB):Boolean
+		{
+			var minPoint:Point = (_min == null) ? new Point(_owner.x, _owner.y) : new Point(_owner.x + _min.x, _owner.y + _min.y);
+			var maxPoint:Point = (_max == null) ? new Point(_owner.x + _owner.width, _owner.y + _owner.height) : new Point(_owner.x + _max.x, _owner.y + _max.y);
+			
+			var otherMinPoint:Point = (other._min == null) ? new Point(other._owner.x, other._owner.y) : new Point(other._owner.x + other._min.x, other._owner.y + other._min.y);
+			var otherMaxPoint:Point = (other._max == null) ? new Point(other._owner.x + other._owner.width, other._owner.y + other._owner.height) : 
+												new Point(other._owner.x + other._max.x, other._owner.y + other._max.y);
+												
+			if ( minPoint.y > otherMaxPoint.y ) { return false; }
+			if ( maxPoint.y < otherMinPoint.y ) { return false; }
+			if ( minPoint.x > otherMaxPoint.x ) { return false; }
+			if ( maxPoint.x < otherMinPoint.x ) { return false; }
 			
 			return true;
+		}
+		
+		public function rect():Rectangle
+		{
+			var minPoint:Point = (_min == null) ? new Point(_owner.x, _owner.y) : new Point(_owner.x + _min.x, _owner.y + _min.y);
+			var maxPoint:Point = (_max == null) ? new Point(_owner.x + _owner.width, _owner.y + _owner.height) : new Point(_owner.x + _max.x, _owner.y + _max.y);
+			
+			return new Rectangle(minPoint.x, minPoint.y, maxPoint.x - minPoint.x, maxPoint.y - minPoint.y);
 		}
 	}
 }
